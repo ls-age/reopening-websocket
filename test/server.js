@@ -13,6 +13,11 @@ function startServer() {
       if (message === 'close') {
         wss.close();
         setTimeout(startServer, 500);
+      } else if (message === 'shutdown') {
+        if (process.argv.length > 2 && process.argv[2] === '--single-run') {
+          console.log('shutting down');
+          wss.close();
+        }
       } else {
         ws.send(message);
         console.log('received: %s', message);

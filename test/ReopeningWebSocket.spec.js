@@ -5,6 +5,14 @@ const TestUrl = 'ws://localhost:9000';
 
 /** @test {ReopeningWebSocket} */
 describe('ReopeningWebSocket', function() {
+  after(function(done) {
+    const ws = new WebSocket(TestUrl);
+    ws.addEventListener('open', function() {
+      ws.send('shutdown');
+      done();
+    });
+  });
+
   it('must be used as class', function() {
     expect(function() {
       ReopeningWebSocket();
