@@ -41,8 +41,14 @@ describe('ReopeningWebSocket', function() {
     });
 
     context('should forward native events', function() {
+      let ws;
+
       beforeEach(function() {
         ws = new ReopeningWebSocket(TestUrl);
+      });
+
+      afterEach(function() {
+        ws.close();
       });
 
       it('open', function(done) {
@@ -52,11 +58,15 @@ describe('ReopeningWebSocket', function() {
       });
 
       it('close', function(done) {
+        let closed = false;
         ws.addEventListener('close', function() {
-          done();
+          if (!closed) {
+            done();
+            closed = true;
+          }
         });
         ws.addEventListener('open', function() {
-          ws.close();
+          ws._webSocket.close();
         });
       });
 
@@ -75,17 +85,18 @@ describe('ReopeningWebSocket', function() {
     /** @test {ReopeningWebSocket#close} */
     describe('#close', function() {
       it('should pass arguments', function(done) {
+        const ws = new ReopeningWebSocket(TestUrl);
         const listener = sinon.spy(ws._webSocket, 'close');
         const code = 4000;
         const reason = 'Unit testing';
-
-        ws.close(code, reason);
 
         ws.addEventListener('close', function() {
           expect(listener.callCount, 'to equal', 1);
           expect(listener.calledWith(code, reason), 'to be true');
           done();
         });
+
+        ws.close(code, reason);
       });
     });
   });
@@ -94,7 +105,11 @@ describe('ReopeningWebSocket', function() {
     let ws;
     beforeEach(function(done) {
       ws = new ReopeningWebSocket(TestUrl);
-      ws._webSocket.addEventListener('open', () => done());
+      ws._webSocket.addEventListener('open', function() { done(); });
+    });
+
+    afterEach(function() {
+      ws.close();
     });
 
     it('should dispatch reopenattempt event before trying to reopen', function(done) {
@@ -104,7 +119,7 @@ describe('ReopeningWebSocket', function() {
 
         done();
       });
-      ws._webSocket.close();
+      ws.reopen();
     });
 
     it('should dispatch reopen event on reopen', function(done) {
@@ -128,16 +143,18 @@ describe('ReopeningWebSocket', function() {
 
         ws.addEventListener('reopen', reopenListener, { once: true });
         ws.addEventListener('reopenattempt', attemptListener, { once: true });
-        ws.addEventListener('reopen', function() {
-          setTimeout(function() {
-            expect(reopenListener.callCount, 'to equal', 1);
-            expect(attemptListener.callCount, 'to equal', 1);
-            done();
-          }, 50);
-        });
+
+        // Force multiple reopens
         ws.addEventListener('open', function() {
           ws._webSocket.close();
         });
+
+        setTimeout(function() {
+          expect(reopenListener.callCount, 'to equal', 1);
+          expect(attemptListener.callCount, 'to equal', 1);
+          ws.close();
+          done();
+        }, 200);
       });
     });
 
@@ -151,6 +168,7 @@ describe('ReopeningWebSocket', function() {
 
         ws.addEventListener('open', function() {
           expect(listener.callCount, 'to equal', 0);
+          ws.close();
           done();
         });
       });
@@ -200,6 +218,7 @@ describe('ReopeningWebSocket', function() {
         ws.addEventListener('reopen', function() {
           expect(openListener.callCount, 'to equal', 1);
           expect(attemptListener.callCount, 'to equal', 1);
+          ws.close();
           done();
         });
 
@@ -218,6 +237,7 @@ describe('ReopeningWebSocket', function() {
           ws.addEventListener('reopen', function() {
             expect(oldWs, 'not to equal', ws._webSocket);
             expect(ws.onopen, 'to equal', listener);
+            ws.close();
             done();
           });
 
