@@ -5,6 +5,12 @@ const TestUrl = 'ws://localhost:9000';
 
 /** @test {ReopeningWebSocket} */
 describe('ReopeningWebSocket', function() {
+  it('must be used as class', function() {
+    expect(function() {
+      ReopeningWebSocket();
+    }, 'to throw', TypeError);
+  });
+
   describe('extends Standard WebSocket API', function() {
     let ws = new ReopeningWebSocket(TestUrl);
 
