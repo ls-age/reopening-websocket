@@ -68,7 +68,6 @@ export default class ReopeningWebSocket {
       if (this.reopenAttempt === 0) {
         this.reopen();
       } else {
-        console.log('delay reopen');
         setTimeout(() => this.reopen(), 100);
       }
     }
