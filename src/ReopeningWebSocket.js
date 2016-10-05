@@ -4,6 +4,7 @@
 /** @external {Blob} https://developer.mozilla.org/en-US/docs/Web/API/Blob */
 
 /**
+ * Automatically reopening WebSocket
  * @extends {WebSocket}
  * @implements {EventTarget}
  */
