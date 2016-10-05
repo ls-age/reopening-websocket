@@ -131,6 +131,16 @@ describe('ReopeningWebSocket', function() {
 
       ws._webSocket.close();
     });
+
+    it('should try again if reopen is not possible', function(done) {
+      ws.send('close');
+
+      ws.addEventListener('reopen', function(e) {
+        expect(e.detail, 'to be greater than', 1);
+        expect(ws.reopenAttempt, 'to be greater than', 1);
+        done();
+      });
+    });
   });
 
   describe('EventTarget', function() {
