@@ -79,6 +79,7 @@ export default class ReopeningWebSocket {
    */
   reopen() {
     this.reopenAttempt++;
+    this._reopeningEnabled = true;
     this.dispatchEvent(new CustomEvent('reopenattempt', { detail: this.reopenAttempt }));
 
     const oldWs = this._webSocket;
