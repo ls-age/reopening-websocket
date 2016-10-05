@@ -4,6 +4,7 @@
 /** @external {Blob} https://developer.mozilla.org/en-US/docs/Web/API/Blob */
 
 /**
+ * Automatically reopening WebSocket
  * @extends {WebSocket}
  * @implements {EventTarget}
  */
@@ -178,9 +179,20 @@ export default class ReopeningWebSocket {
 
   /**
    * Closes the WebSocket connection or connection attempt, if any.
+   *
+   * *Note that after calling this method the connection will not reopen automatically any more.
+   * Call {@link ReopeningWebSocket#reopen} to reopen it.*
    * @param {Number} [code=1000] A numeric value indicating why the connection is being closed.
    * @param {String} reason The human-readable reason why the connection is being closed.
    * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket#close()
+   *
+   * @example <caption>Disabling and re-enabling automatic reopening</caption>
+   * const ws = new ReopeningWebSocket('ws://example.com');
+   * ...
+   * ws.close();
+   * // At this point the connection will not no longer automatically reopen
+   * ws.reopen();
+   * // At this point automatic reopening is re-enabled.
    */
   close(code, reason) {
     this._reopeningEnabled = false;
