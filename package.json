@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Automatically reopening WebSocket",
   "main": "out/dist/ReopeningWebSocket.js",
-  "esnext:main": "out/dist/ReopeningWebSocket.js",
+  "jsnext:main": "src/ReopeningWebSocket.js",
   "scripts": {
     "doc": "esdoc -c esdoc.json",
     "test": "babel-node test/server.js | karma start"
