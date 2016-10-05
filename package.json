@@ -8,7 +8,7 @@
     "doc": "esdoc -c esdoc.json",
     "build": "gulp build",
     "build:dist": "gulp build:dist",
-    "test": "babel-node test/server.js --single-run | karma start --single-run",
+    "test": "npm run build && babel-node test/server.js --single-run | karma start --single-run",
     "dev": "gulp watch | babel-node test/server.js | karma start"
   },
   "repository": {
