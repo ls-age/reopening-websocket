@@ -71,8 +71,6 @@ export default class ReopeningWebSocket {
         console.log('delay reopen');
         setTimeout(() => this.reopen(), 100);
       }
-    } else {
-      console.log('close was called directly');
     }
   }
 
