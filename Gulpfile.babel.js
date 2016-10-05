@@ -62,6 +62,6 @@ function minify() {
 
 export const dist = series(build, minify);
 
-export const dev = series(bundleTest, function watch() {
+export const watch = series(bundleTest, function watch() {
   watchFiles('src/**/*.js', bundleTest);
 });
