@@ -41,7 +41,7 @@ function bundleCJS() {
     .pipe(dest('out/debug'));
 }
 
-export const build = parallel(bundleUMD, bundleAMD, bundleCJS);
+export const build = parallel(bundleTest, bundleUMD, bundleAMD, bundleCJS);
 
 function minify() {
   return src('out/debug/**/*.js')
