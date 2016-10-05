@@ -3,10 +3,10 @@ export default config => {
     frameworks: ['mocha', 'unexpected', 'sinon'],
     preprocessors: {
       'test/**/*.js': ['babel'],
-      'out/ReopeningWebSocket.js': ['coverage'],
+      'out/test/ReopeningWebSocket.js': ['coverage'],
     },
     files: [
-      'out/ReopeningWebSocket.js',
+      'out/test/ReopeningWebSocket.js',
       'test/**/*.spec.*',
     ],
     browsers: ['Chrome'],

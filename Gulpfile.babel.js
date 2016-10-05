@@ -1,22 +1,67 @@
-import { watch as watchFiles } from 'gulp';
-import { rollup } from 'rollup';
-import buble from 'rollup-plugin-buble';
+import { src, dest, watch as watchFiles, series, parallel } from 'gulp';
+import rollup from 'gulp-rollup-stream';
+import babel from 'gulp-babel';
+import rename from 'gulp-rename';
+import uglify from 'gulp-uglify';
 
-export function bundle() {
-  return rollup({
-    entry: 'src/ReopeningWebSocket.js',
-    plugins: [buble()],
-  }).then(result => {
-    return result.write({
-      format: 'iife',
-      moduleName: 'ReopeningWebSocket',
-      dest: 'out/ReopeningWebSocket.js',
-      indent: true,
-      sourceMap: true,
-    });
-  });
+function createBundle(format, es5 = true) {
+  const stream = src('src/ReopeningWebSocket.js')
+    .pipe(rollup({ format, moduleName: 'ReopeningWebSocket' }));
+
+  if (es5) {
+    stream.pipe(babel({
+      presets: [
+        ['es2015', { loose: true }],
+      ],
+    }));
+  }
+
+  return stream;
 }
 
-export function watch() {
-  watchFiles('src/**/*.js', bundle);
+function bundleTest() {
+  return createBundle('iife')
+    .pipe(dest('out/test'));
 }
+
+function bundleUMD() {
+  return createBundle('umd')
+    .pipe(dest('out/debug'));
+}
+
+function bundleAMD() {
+  return createBundle('amd')
+    .pipe(rename({ suffix: '.amd' }))
+    .pipe(dest('out/debug'));
+}
+
+function bundleCJS() {
+  return createBundle('cjs')
+    .pipe(rename({ suffix: '.cjs' }))
+    .pipe(dest('out/debug'));
+}
+
+export const build = parallel(bundleUMD, bundleAMD, bundleCJS);
+
+function minify() {
+  return src('out/debug/**/*.js')
+    .pipe(uglify({
+      mangle: true,
+      compress: {
+        sequences: true,
+        dead_code: true,
+        conditionals: true,
+        booleans: true,
+        unused: true,
+        if_return: true,
+        join_vars: true,
+      },
+    }))
+    .pipe(dest('out/dist'));
+}
+
+export const dist = series(build, minify);
+
+export const dev = series(bundleTest, function watch() {
+  watchFiles('src/**/*.js', bundleTest);
+});
