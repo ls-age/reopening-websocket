@@ -10,10 +10,6 @@ Documentation is [hosted by ESDoc](https://doc.esdoc.org/github.com/ls-age/reope
 
 ## Status
 
-<center>
-
 **CircleCI:** [![CircleCI](https://circleci.com/gh/ls-age/reopening-websocket.svg?style=svg)](https://circleci.com/gh/ls-age/reopening-websocket)
 
 **ESDoc:** [![ESDoc](https://doc.esdoc.org/github.com/ls-age/reopening-websocket/badge.svg)](https://doc.esdoc.org/github.com/ls-age/reopening-websocket)
-
-</center>
