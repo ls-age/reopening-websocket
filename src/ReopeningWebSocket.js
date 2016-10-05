@@ -1,6 +1,7 @@
 /** @external {WebSocket} https://developer.mozilla.org/en-US/docs/Web/API/WebSocket */
 /** @external {EventTarget} https://developer.mozilla.org/en-US/docs/Web/API/EventTarget */
 /** @external {EventListener} https://developer.mozilla.org/en-US/docs/Web/API/EventListener */
+/** @external {Blob} https://developer.mozilla.org/en-US/docs/Web/API/Blob */
 
 /**
  * @extends {WebSocket}
