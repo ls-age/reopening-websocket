@@ -141,6 +141,30 @@ describe('ReopeningWebSocket', function() {
         done();
       });
     });
+
+    it('should not be enabled if #close was called before', function(done) {
+      ws.addEventListener('reopenattempt', function() {
+        throw new Error('fail');
+      });
+      ws.close();
+
+      setTimeout(done, 50);
+    });
+
+    it('should be re-enabled when calling #reopen', function(done) {
+      let closed = true;
+      ws.addEventListener('reopenattempt', function() {
+        expect(closed, 'to be false');
+        expect(ws._reopeningEnabled, 'to be true');
+        done();
+      });
+
+      ws.close();
+      setTimeout(function() {
+        closed = false;
+        ws.reopen();
+      }, 50);
+    });
   });
 
   describe('EventTarget', function() {
