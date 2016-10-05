@@ -12,30 +12,32 @@ describe('ReopeningWebSocket', function() {
   });
 
   describe('extends Standard WebSocket API', function() {
-    let ws = new ReopeningWebSocket(TestUrl);
+    context('should inherit', function() {
+      let ws = new ReopeningWebSocket(TestUrl);
 
-    it('should inherit all methods', function() {
-      expect(ws.close, 'to be defined');
-      expect(ws.send, 'to be defined');
-    });
+      it('methods', function() {
+        expect(ws.close, 'to be defined');
+        expect(ws.send, 'to be defined');
+      });
 
-    it('should inherit all attributes', function() {
-      expect(ws.binaryType, 'to be defined');
-      expect(ws.bufferedAmount, 'to be defined');
-      expect(ws.extensions, 'to be defined');
-      expect(ws.onerror, 'to be defined');
-      expect(ws.onmessage, 'to be defined');
-      expect(ws.onopen, 'to be defined');
-      expect(ws.protocol, 'to be defined');
-      expect(ws.readyState, 'to be defined');
-      expect(ws.url, 'to be defined');
-    });
+      it('attributes', function() {
+        expect(ws.binaryType, 'to be defined');
+        expect(ws.bufferedAmount, 'to be defined');
+        expect(ws.extensions, 'to be defined');
+        expect(ws.onerror, 'to be defined');
+        expect(ws.onmessage, 'to be defined');
+        expect(ws.onopen, 'to be defined');
+        expect(ws.protocol, 'to be defined');
+        expect(ws.readyState, 'to be defined');
+        expect(ws.url, 'to be defined');
+      });
 
-    it('should inherit all constants', function() {
-      expect(ReopeningWebSocket.CONNECTING, 'to be defined');
-      expect(ReopeningWebSocket.OPEN, 'to be defined');
-      expect(ReopeningWebSocket.CLOSING, 'to be defined');
-      expect(ReopeningWebSocket.CLOSED, 'to be defined');
+      it('constants', function() {
+        expect(ReopeningWebSocket.CONNECTING, 'to be defined');
+        expect(ReopeningWebSocket.OPEN, 'to be defined');
+        expect(ReopeningWebSocket.CLOSING, 'to be defined');
+        expect(ReopeningWebSocket.CLOSED, 'to be defined');
+      });
     });
 
     context('should forward native events', function() {
