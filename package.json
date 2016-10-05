@@ -6,7 +6,10 @@
   "jsnext:main": "src/ReopeningWebSocket.js",
   "scripts": {
     "doc": "esdoc -c esdoc.json",
-    "test": "babel-node test/server.js | karma start"
+    "build": "gulp build",
+    "build:dist": "gulp build:dist",
+    "test": "babel-node test/server.js --single-run | karma start --single-run",
+    "dev": "gulp watch | babel-node test/server.js | karma start"
   },
   "repository": {
     "type": "git",
