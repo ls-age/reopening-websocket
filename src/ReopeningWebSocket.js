@@ -182,7 +182,7 @@ export default class ReopeningWebSocket {
    */
   close(code, reason) {
     this._reopeningEnabled = false;
-    return this._webSocket.close(code, reason);
+    this._webSocket.close(code, reason);
   }
 
   /**
@@ -191,7 +191,7 @@ export default class ReopeningWebSocket {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket#send()
    */
   send(data) {
-    return this._webSocket.send(data);
+    this._webSocket.send(data);
   }
 }
 
